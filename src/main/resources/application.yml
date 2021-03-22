@@ -23,4 +23,4 @@ logging:
     reactor.netty.http.client: DEBUG
 
 test:
-  delay: 10
+  delay: 3

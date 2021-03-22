@@ -1,7 +1,5 @@
 package com.example.gateway;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -10,14 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class NonBlockingHeaderGatewayFilterFactory extends AbstractGatewayFilterFactory<NonBlockingHeaderGatewayFilterFactory.Config> {
 
-    final Logger logger = LoggerFactory.getLogger(NonBlockingHeaderGatewayFilterFactory.class);
-
-    public NonBlockingHeaderGatewayFilterFactory() {
-        super(Config.class);
-    }
+    private final RestConnector restConnector;
 
     @Autowired
-    RestConnector restConnector;
+    public NonBlockingHeaderGatewayFilterFactory(RestConnector restConnector) {
+        super(Config.class);
+        this.restConnector = restConnector;
+    }
 
     @Override
     public GatewayFilter apply(Config config) {
@@ -34,21 +31,5 @@ public class NonBlockingHeaderGatewayFilterFactory extends AbstractGatewayFilter
     }
 
     public static class Config {
-        private String baseMessage;
-
-        public Config() {
-        }
-
-        public Config(String baseMessage) {
-            this.baseMessage = baseMessage;
-        }
-
-        public void setBaseMessage(String baseMessage) {
-            this.baseMessage = baseMessage;
-        }
-
-        public String getBaseMessage() {
-            return baseMessage;
-        }
     }
 }
